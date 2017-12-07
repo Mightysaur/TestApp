@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logs"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="Logs" />
+        <item
+            android:id="@+id/nav_pair_glasses"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="Pair to glasses" />
+    </group>
+
+    <item android:title="Session Manager">
+        <menu>
+            <item
+                android:id="@+id/nav_new_session"
+                android:icon="@android:drawable/ic_menu_add"
+                android:title="Start new session" />
+            <item
+                android:id="@+id/nav_rename_session"
+                android:icon="@android:drawable/ic_menu_edit"
+                android:title="Rename Session" />
+            <item
+                android:id="@+id/nav_delete_session"
+                android:icon="@android:drawable/ic_menu_delete"
+                android:title="Delete Session" />
+        </menu>
+    </item>
+
+    <item android:title="Reset">
+        <menu>
+            <item
+                android:id="@+id/nav_reset_learnt_words"
+                android:icon="@android:drawable/ic_menu_revert"
+                android:title="Reset learnt words" />
+            <item
+                android:id="@+id/nav_reset_session_data"
+                android:icon="@android:drawable/ic_menu_rotate"
+                android:title="Reset all session data" />
+        </menu>
+    </item>
+
+    <item android:title="Extras">
+        <menu>
+            <item
+                android:id="@+id/nav_favourites"
+                android:icon="@android:drawable/star_off"
+                android:title="Favourites" />
+            <item
+                android:id="@+id/nav_help"
+                android:icon="@android:drawable/ic_menu_help"
+                android:title="Help" />
+            <item
+                android:id="@+id/nav_closeapp"
+                android:icon="@android:drawable/ic_menu_close_clear_cancel"
+                android:title="Exit application" />
+        </menu>
+    </item>
+
+</menu>
