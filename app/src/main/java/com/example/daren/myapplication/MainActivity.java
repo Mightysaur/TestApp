@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_delete_session) {
 
         } else if (id == R.id.nav_reset_learnt_words) {
-
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new DefTab()).commit();
         } else if (id == R.id.nav_reset_session_data) {
 
         } else if (id == R.id.nav_logs){
