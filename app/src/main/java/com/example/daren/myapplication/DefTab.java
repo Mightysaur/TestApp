@@ -27,7 +27,6 @@ public class DefTab extends Fragment {
 
     public static final String API_KEY = "b184931b-4583-43c8-9ea9-baac48d5e3f8";
     public static final String SERVER = "https://www.dictionaryapi.com/api/references/medical/v2/xml/";
-    public static final String QUERY = "doctor";
     public static final String QUERY_URL = SERVER + QUERY + "?key=" + API_KEY;
 
     @Nullable
@@ -44,7 +43,6 @@ public class DefTab extends Fragment {
         Log.i(TAG, "onClick_GetXML: ");
         AsyncDownloader downloader = new AsyncDownloader();
         downloader.execute();
-
     }
 
     private void handleNewRecord(String entry) {
@@ -65,7 +63,7 @@ public class DefTab extends Fragment {
         private XmlPullParser tryDownloadingXmlData() {
             try {
                 Log.i(TAG, "Now downloading...");
-                URL xmlUrl = new URL(QUERY_URL);
+                URL xmlUrl = new URL(SERVER + query + "?key=" + API_KEY);
                 XmlPullParser receivedData = XmlPullParserFactory.newInstance().newPullParser();
                 receivedData.setInput(xmlUrl.openStream(), null);
                 return receivedData;
@@ -80,7 +78,9 @@ public class DefTab extends Fragment {
         private int tryParsingXmlData(XmlPullParser receivedData) {
             if (receivedData != null) {
                 try {
-                    return processReceivedData(receivedData);
+                    XMLParser parser = new XMLParser(receivedData);
+                    String definition = parser.getFirstDefinition();
+                    publishProgress(definition);
                 } catch (XmlPullParserException e) {
                     Log.e(TAG, "Pull Parser failure", e);
                 } catch (IOException e) {
@@ -88,57 +88,6 @@ public class DefTab extends Fragment {
                 }
             }
             return 0;
-        }
-
-        private int processReceivedData(XmlPullParser xmlData) throws XmlPullParserException, IOException {
-            int recordsFound = 0;
-
-            String definition = "";       // Text
-
-            int eventType = -1;
-            while (eventType != XmlResourceParser.END_DOCUMENT) {
-                String tagName = xmlData.getName();
-
-                switch (eventType) {
-
-                    case XmlPullParser.START_TAG:
-                        if(tagName.equals("dt") && recordsFound < 1 ){
-                            eventType = xmlData.next();
-
-                            while(!((eventType == XmlPullParser.END_TAG) && (tagName.equals("dt")))){
-                                if ((eventType == XmlPullParser.START_TAG) || (eventType == XmlPullParser.END_TAG)){
-                                    tagName = xmlData.getName();
-                                }
-                                if(eventType == XmlPullParser.TEXT){
-                                    definition += xmlData.getText();
-                                    Log.i(TAG, "processReceivedData: "+ definition);
-                                }
-                                eventType = xmlData.next();
-                            }
-                            definition += "\n";
-                            recordsFound ++;
-                            publishProgress(definition);
-                        }
-                        break;
-
-                    case XmlPullParser.TEXT:
-                        break;
-
-                    // Grab data text (very simple processing)
-                    // NOTE: This could be full XML data to process.
-
-                    case XmlPullParser.END_TAG:
-                        break;
-                }
-                eventType = xmlData.next();
-            }
-
-            // Handle no data available: Publish an empty event.
-            if (recordsFound == 0) {
-                publishProgress();
-            }
-            Log.i(TAG, "Finished processing "+recordsFound+" records.");
-            return recordsFound;
         }
 
         @Override
