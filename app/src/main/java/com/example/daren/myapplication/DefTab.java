@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -19,7 +20,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.net.URL;
 
-public class DefTab extends Fragment {
+public class DefTab extends Fragment implements View.OnClickListener{
 
     View myView;
     TextView textView;
@@ -36,9 +37,17 @@ public class DefTab extends Fragment {
         myView = inflater.inflate(R.layout.fragment_def_tab, container, false);
         textView = (TextView) myView.findViewById(R.id.netResult);
 
+        Button b = (Button) myView.findViewById(R.id.getXML);
+        b.setOnClickListener(this);
         return myView;
     }
 
+    @Override
+    public void onClick(View view) {
+        Log.i(TAG, "onClick_GetXML: ");
+        AsyncDownloader downloader = new AsyncDownloader();
+        downloader.execute();
+    }
     public void onClick_GetXML(View v){
         Log.i(TAG, "onClick_GetXML: ");
         AsyncDownloader downloader = new AsyncDownloader();
@@ -49,6 +58,8 @@ public class DefTab extends Fragment {
         String message = textView.getText().toString() + "\n" + entry;
         textView.setText(message);
     }
+
+
 
 
     private class AsyncDownloader extends AsyncTask<Object, String, Integer> {

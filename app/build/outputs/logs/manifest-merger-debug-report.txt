@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
 MERGED from [com.android.support:design:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/257ffadb08eed85fc15a0fe48d9a090e/AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:appcompat-v7:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/a8cf859448c76764911eaf0907c65d48/AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/nadim/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/5340efbf83cbb04ff7b144e535bdc4bc/AndroidManifest.xml:2:1-11:12
@@ -18,37 +18,37 @@ MERGED from [com.android.support:support-core-utils:26.1.0] /home/nadim/.gradle/
 MERGED from [com.android.support:support-core-ui:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.1.0.aar/beb992d1ffd4f56c8ea9c43692073a63/AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-compat:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/9d92c638625e20a9a6c113d942fb6d66/AndroidManifest.xml:17:1-31:12
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/a072b969ff616ab40e5c2833522b021d/AndroidManifest.xml:17:1-30:12
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
 	package
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:3:5-46
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:3:5-46
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:1-31:12
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:4:5-81
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:4:5-81
 	android:name
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:4:22-78
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:4:22-78
 uses-permission#android.permission.INTERNET
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:5:5-66
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:5:5-66
 	android:name
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:5:22-64
 uses-permission#android.permission.RECORD_AUDIO
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:6:5-71
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:6:5-71
 	android:name
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:6:22-68
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:6:22-68
 application
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:8:5-29:19
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:8:5-29:19
 MERGED from [com.android.support:design:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/257ffadb08eed85fc15a0fe48d9a090e/AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:design:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/257ffadb08eed85fc15a0fe48d9a090e/AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:appcompat-v7:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/a8cf859448c76764911eaf0907c65d48/AndroidManifest.xml:25:5-29:19
@@ -78,43 +78,43 @@ MERGED from [com.android.support:support-compat:26.1.0] /home/nadim/.gradle/cach
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/a072b969ff616ab40e5c2833522b021d/AndroidManifest.xml:24:5-28:19
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/a072b969ff616ab40e5c2833522b021d/AndroidManifest.xml:24:5-28:19
 	android:supportsRtl
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:14:9-35
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:14:9-35
 	android:label
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:12:9-41
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:12:9-41
 	android:roundIcon
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:13:9-54
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:13:9-54
 	android:icon
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:11:9-43
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:11:9-43
 	android:allowBackup
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:10:9-35
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:10:9-35
 	android:theme
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:15:9-40
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:15:9-40
 activity#com.example.daren.myapplication.MainActivity
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:17:9-27:20
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:17:9-27:20
 	android:label
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:20:13-45
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:20:13-45
 	android:theme
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:21:13-56
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:21:13-56
 	android:name
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:19:13-41
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:19:13-41
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:22:13-26:29
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:22:13-26:29
 action#android.intent.action.MAIN
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:23:17-69
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:23:17-69
 	android:name
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:23:25-66
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:23:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:25:17-77
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:25:27-74
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:25:27-74
 service#com.example.daren.myapplication.MyService
-ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:28:9-45
+ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:28:9-45
 	android:name
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml:28:18-43
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml:28:18-43
 uses-sdk
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
 MERGED from [com.android.support:design:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/257ffadb08eed85fc15a0fe48d9a090e/AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:design:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/257ffadb08eed85fc15a0fe48d9a090e/AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:appcompat-v7:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/a8cf859448c76764911eaf0907c65d48/AndroidManifest.xml:21:5-23:78
@@ -143,18 +143,18 @@ MERGED from [com.android.support:support-compat:26.1.0] /home/nadim/.gradle/cach
 MERGED from [com.android.support:support-compat:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/9d92c638625e20a9a6c113d942fb6d66/AndroidManifest.xml:21:5-23:58
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/a072b969ff616ab40e5c2833522b021d/AndroidManifest.xml:20:5-22:41
 MERGED from [android.arch.lifecycle:runtime:1.0.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/a072b969ff616ab40e5c2833522b021d/AndroidManifest.xml:20:5-22:41
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
 	tools:overrideLibrary
 		ADDED from [com.android.support:design:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/257ffadb08eed85fc15a0fe48d9a090e/AndroidManifest.xml:23:9-59
 	android:targetSdkVersion
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-		ADDED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
-		INJECTED from /home/nadim/Documents/UCL 2017-2018/TestApp/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+		ADDED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
+		INJECTED from /home/nadim/AndroidStudioProjects/TestApp/app/src/main/AndroidManifest.xml
 meta-data#android.support.VERSION
 ADDED from [com.android.support:design:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/257ffadb08eed85fc15a0fe48d9a090e/AndroidManifest.xml:26:9-28:38
 MERGED from [com.android.support:appcompat-v7:26.1.0] /home/nadim/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/a8cf859448c76764911eaf0907c65d48/AndroidManifest.xml:26:9-28:38
