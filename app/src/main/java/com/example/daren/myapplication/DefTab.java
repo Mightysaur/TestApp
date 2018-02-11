@@ -30,8 +30,7 @@ public class DefTab extends Fragment implements View.OnClickListener{
 
     public static final String API_KEY = "b184931b-4583-43c8-9ea9-baac48d5e3f8";
     public static final String SERVER = "https://www.dictionaryapi.com/api/references/medical/v2/xml/";
-    private String query = "emphysema";
-
+    public String query = "";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
