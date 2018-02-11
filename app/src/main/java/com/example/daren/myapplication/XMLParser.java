@@ -1,4 +1,4 @@
-package com.example.nadim.medicaldictionary;
+package com.example.daren.myapplication;
 
 /**
  * Created by nadim on 24/01/18.

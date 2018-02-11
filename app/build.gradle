@@ -29,6 +29,3 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
 
-ant.importBuild 'assets.xml'
-preBuild.dependsOn(list, checksum)
-clean.dependsOn(clean_assets)
