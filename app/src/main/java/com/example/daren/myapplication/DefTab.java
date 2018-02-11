@@ -78,7 +78,7 @@ public class DefTab extends Fragment implements View.OnClickListener{
         private XmlPullParser tryDownloadingXmlData() {
             try {
                 Log.i(TAG, "Now downloading...");
-                URL xmlUrl = new URL(SERVER + query + "?key=" + API_KEY);
+                URL xmlUrl = new URL(SERVER + query.trim() + "?key=" + API_KEY);
                 XmlPullParser receivedData = XmlPullParserFactory.newInstance().newPullParser();
                 receivedData.setInput(xmlUrl.openStream(), null);
                 return receivedData;
