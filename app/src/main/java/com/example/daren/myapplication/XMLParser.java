@@ -34,6 +34,8 @@ public class XMLParser {
             switch (eventType) {
 
                 case XmlPullParser.START_TAG:
+
+                    //Retrieves the first definition only, ignoring tags in between
                     if(tagName.equals("dt") && recordsFound < 1 ){
                         eventType = xmlData.next();
 
@@ -53,15 +55,15 @@ public class XMLParser {
                 case XmlPullParser.TEXT:
                     break;
 
-                // Grab data text (very simple processing)
-                // NOTE: This could be full XML data to process.
-
                 case XmlPullParser.END_TAG:
                     break;
             }
             eventType = xmlData.next();
         }
 
+        if(definition == ""){
+            return "No definition Found";
+        }
         return definition;
     }
 
