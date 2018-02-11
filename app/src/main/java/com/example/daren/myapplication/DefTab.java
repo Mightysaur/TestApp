@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -24,6 +25,7 @@ public class DefTab extends Fragment implements View.OnClickListener{
 
     View myView;
     TextView textView;
+    EditText editText;
     private static final String TAG = "DictionaryApp";
 
     public static final String API_KEY = "b184931b-4583-43c8-9ea9-baac48d5e3f8";
@@ -36,6 +38,7 @@ public class DefTab extends Fragment implements View.OnClickListener{
         //int layoutTemp = R.layout.fragment_definition_lookup_tab;
         myView = inflater.inflate(R.layout.fragment_def_tab, container, false);
         textView = (TextView) myView.findViewById(R.id.netResult);
+        editText = (EditText) myView.findViewById(R.id.editText);
 
         Button b = (Button) myView.findViewById(R.id.getXML);
         b.setOnClickListener(this);
@@ -45,6 +48,8 @@ public class DefTab extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         Log.i(TAG, "onClick_GetXML: ");
+        textView.setText("");
+        query = editText.getText().toString();
         AsyncDownloader downloader = new AsyncDownloader();
         downloader.execute();
     }

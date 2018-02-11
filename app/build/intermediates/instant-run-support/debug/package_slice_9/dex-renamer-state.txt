@@ -1,4 +1,4 @@
-#Sun Feb 11 14:26:44 GMT 2018
+#Sun Feb 11 14:44:35 GMT 2018
 base.0=/home/nadim/AndroidStudioProjects/TestApp/app/build/intermediates/transforms/dexMerger/debug/10
 path.0=classes.dex
 renamed.0=classes.dex

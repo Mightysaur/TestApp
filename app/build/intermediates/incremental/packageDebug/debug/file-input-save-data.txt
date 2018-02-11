@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Sun Feb 11 14:40:55 GMT 2018
+#Sun Feb 11 14:44:35 GMT 2018
 2.base=/home/nadim/AndroidStudioProjects/TestApp/app/build/intermediates/transforms/dexMerger/debug/12
 5.set=DEX
 0.path=classes.dex
