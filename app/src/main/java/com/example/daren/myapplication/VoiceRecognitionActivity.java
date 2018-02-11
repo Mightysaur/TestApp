@@ -62,7 +62,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.new_session, container, false);
-
+        ((MainActivity)getActivity()).requestRecordAudioPermission();
         /*super.onCreate(savedInstanceState);
         txtSpeechInput = (TextView) myView.findViewById(R.id.txtSpeechInput);
         btnSpeak = (Button) myView.findViewById(R.id.myButton);
