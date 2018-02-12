@@ -33,12 +33,11 @@ public class DefTab extends Fragment implements View.OnClickListener{
     public String query = "";
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState){
         //int layoutTemp = R.layout.fragment_definition_lookup_tab;
         myView = inflater.inflate(R.layout.fragment_def_tab, container, false);
         textView = (TextView) myView.findViewById(R.id.netResult);
         editText = (EditText) myView.findViewById(R.id.editText);
-
         Button b = (Button) myView.findViewById(R.id.getXML);
         b.setOnClickListener(this);
         return myView;
