@@ -17,15 +17,18 @@ import java.io.IOException;
 public class XMLParser {
 
     private XmlPullParser receivedData;
+    private String word;
 
-    public XMLParser(XmlPullParser receivedData) {
+    public XMLParser(XmlPullParser receivedData, String query) {
         this.receivedData = receivedData;
+        this.word = query;
     }
 
     private String firstDefinitionFrom(XmlPullParser xmlData) throws XmlPullParserException, IOException {
         int recordsFound = 0;
 
-        String definition = "";       // Text
+        String definition = "";
+        // Text
 
         int eventType = -1;
         while (eventType != XmlResourceParser.END_DOCUMENT) {
@@ -62,9 +65,10 @@ public class XMLParser {
         }
 
         if(definition == ""){
-            return "No definition Found";
+            return word + " No definition found";
         }
-        return definition;
+
+        return word + " " + definition;
     }
 
     public String getFirstDefinition() throws IOException, XmlPullParserException {

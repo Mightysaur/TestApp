@@ -5,8 +5,10 @@ import android.content.BroadcastReceiver;
 
 import android.content.Context;
 
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -36,6 +40,10 @@ import android.widget.ToggleButton;
 
 import android.widget.Button;
 
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
 /**
  * Created by Daren on 06/12/2017.
  */
@@ -43,11 +51,15 @@ import android.widget.Button;
 public class VoiceRecognitionActivity extends Fragment implements RecognitionListener {
 
     View myView;
+    private static final String TAG = "VoiceRecognition";
     private TextView txtSpeechInput;
     private Button btnSpeak;
     private MyService boundService;
     private boolean isBound;
     private static final int REQUEST_RECORD_PERMISSION = 100;
+    private Button yesButton;
+    private Button noButton;
+    private Button nextDefButton;
     private TextView returnedText;
     private ToggleButton toggleButton;
     private ProgressBar progressBar;
@@ -56,6 +68,13 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
     private String LOG_TAG = "VoiceRecognitionActivity";
     String speechString = "";
     boolean speechStarted = false;
+
+    public static final String API_KEY = "b184931b-4583-43c8-9ea9-baac48d5e3f8";
+    public static final String SERVER = "https://www.dictionaryapi.com/api/references/medical/v2/xml/";
+    public String query = "";
+
+    private ArrayList<Word> spokenMedicalTerms = new ArrayList<>();
+
 
 
     @Nullable
@@ -84,6 +103,10 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         returnedText = (TextView) myView.findViewById(R.id.textView1);
         progressBar = (ProgressBar)myView.findViewById(R.id.progressBar1);
         toggleButton = (ToggleButton) myView.findViewById(R.id.toggleButton1);
+        yesButton = myView.findViewById(R.id.yesButton);
+        noButton = myView.findViewById(R.id.noButton);
+        nextDefButton = myView.findViewById((R.id.nextDefinition));
+        returnedText.setMovementMethod(new ScrollingMovementMethod());
 
         progressBar.setVisibility(View.INVISIBLE);
         speech = SpeechRecognizer.createSpeechRecognizer(getActivity());
@@ -116,6 +139,33 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
                     speech.destroy();
 
                 }
+            }
+        });
+
+        yesButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if(!spokenMedicalTerms.isEmpty()){
+                    returnedText.setText(spokenMedicalTerms.get(0).getDefinition());
+                }
+
+            }
+        });
+
+        /*noButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+
+            }
+        });*/
+
+        nextDefButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if(!spokenMedicalTerms.isEmpty()){
+                    spokenMedicalTerms.remove(0);
+                }
+                if(!spokenMedicalTerms.isEmpty()){
+                    returnedText.setText(spokenMedicalTerms.get(0).getWord());
+                }
+                else returnedText.setText("");
             }
         });
 
@@ -173,7 +223,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         ArrayList<String> matches = arg0
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-        returnedText.setText(speechString + matches.get(0));
+       // returnedText.setText(speechString + matches.get(0));
 
 
     }
@@ -189,17 +239,16 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         ArrayList<String> matches = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         speechString = speechString + ". " + matches.get(0);
+        Downloader downloader = new Downloader(matches.get(0));
+        downloader.execute();
     }
+
 
     @Override
     public void onRmsChanged(float rmsdB) {
         Log.i(LOG_TAG, "onRmsChanged: " + rmsdB);
         progressBar.setProgress((int) rmsdB);
     }
-
-
-
-
 
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -210,6 +259,89 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
             txtSpeechInput.setText("hello");
         }
     };
+
+
+    private void handleNewRecord(String entry) {
+       // String message = returnedText.getText().toString() + "\n" + entry;
+       // returnedText.setText(message);
+
+        String arr[] = entry.split(" ", 2);
+
+        if(!(arr[1].equals("No definition found"))){
+            Log.i(TAG, "Medical Term" + arr[1]);
+            spokenMedicalTerms.add( new Word(arr[0], arr[1]));
+            if(spokenMedicalTerms.size() == 1) {
+                returnedText.setText(spokenMedicalTerms.get(0).getWord());
+            }
+
+        }
+    }
+
+
+
+    private class Downloader extends AsyncTask<Object, String, Integer> {
+
+        private String[] receivedWords;
+
+        public Downloader(String receivedString) {
+            receivedWords = receivedString.split(" ");
+        }
+
+        @Override
+        protected Integer doInBackground(Object... arg0) {
+            int recordsFound = 0;
+            for(String word:receivedWords) {
+                Log.i(TAG, "doInBackground: "+ word);
+                query = word;
+                XmlPullParser receivedData = tryDownloadingXmlData();
+                recordsFound = tryParsingXmlData(receivedData);
+            }
+            return recordsFound;
+        }
+
+        private XmlPullParser tryDownloadingXmlData() {
+            try {
+                Log.i(TAG, "Now downloading...");
+                URL xmlUrl = new URL(SERVER + query.trim() + "?key=" + API_KEY);
+                XmlPullParser receivedData = XmlPullParserFactory.newInstance().newPullParser();
+                receivedData.setInput(xmlUrl.openStream(), null);
+                return receivedData;
+            } catch (XmlPullParserException e) {
+                Log.e(TAG, "XmlPullParserExecption", e);
+            } catch (IOException e) {
+                Log.e(TAG, "XmlPullParserExecption", e);
+            }
+            return null;
+        }
+
+        private int tryParsingXmlData(XmlPullParser receivedData) {
+            if (receivedData != null) {
+                try {
+                    XMLParser parser = new XMLParser(receivedData, query);
+                    String definition = parser.getFirstDefinition();
+                    publishProgress(definition);
+                } catch (XmlPullParserException e) {
+                    Log.e(TAG, "Pull Parser failure", e);
+                } catch (IOException e) {
+                    Log.e(TAG, "IO Exception parsing XML", e);
+                }
+            }
+            return 0;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            String entry = values[0];
+            Log.i(TAG, "Word requested: " + entry);
+
+
+            // Pass it to the application
+            handleNewRecord(entry);
+
+            super.onProgressUpdate(values);
+        }
+    }
+
 
 
 }
