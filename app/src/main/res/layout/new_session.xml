@@ -3,31 +3,32 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/yesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="18dp"
+        android:layout_toLeftOf="@+id/button3"
+        android:layout_toStartOf="@+id/button3"
         android:text="Yes" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/noButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
-        android:layout_alignTop="@+id/button"
-        android:layout_marginTop="70dp"
+        android:layout_alignBaseline="@+id/yesButton"
+        android:layout_alignBottom="@+id/yesButton"
+        android:layout_toEndOf="@+id/button3"
+        android:layout_toRightOf="@+id/button3"
         android:text="No" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button2"
+        android:layout_below="@+id/nextDefinition"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="25dp"
         android:text="End Session" />
 
 
@@ -35,10 +36,8 @@
         android:id="@+id/toggleButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
-        android:layout_below="@+id/button3"
-        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:text="ToggleButton" />
 
     <ProgressBar
@@ -60,5 +59,14 @@
         android:layout_centerHorizontal="true"
         android:scrollbars="vertical"
         android:layout_marginTop="47dp" />
+
+    <Button
+        android:id="@+id/nextDefinition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/yesButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="Next Definition" />
 
 </RelativeLayout>

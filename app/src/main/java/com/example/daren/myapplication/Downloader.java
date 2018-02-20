@@ -23,11 +23,13 @@ public class Downloader extends AsyncTask<Object, String, Integer> {
     private URL xmlURL;
     private String returnedText;
     private TextView textView;
+    private String query;
 
     public static final String API_KEY = "b184931b-4583-43c8-9ea9-baac48d5e3f8";
     public static final String SERVER = "https://www.dictionaryapi.com/api/references/medical/v2/xml/";
 
     public Downloader(String query, TextView textView) {
+        this.query = query;
         this.textView = textView;
         try {
             this.xmlURL = new URL(SERVER + query.trim() + "?key=" + API_KEY);
@@ -66,7 +68,7 @@ public class Downloader extends AsyncTask<Object, String, Integer> {
         private int tryParsingXmlData(XmlPullParser receivedData) {
             if (receivedData != null) {
                 try {
-                    XMLParser parser = new XMLParser(receivedData);
+                    XMLParser parser = new XMLParser(receivedData, query);
                     String definition = parser.getFirstDefinition();
                     publishProgress(definition);
                 } catch (XmlPullParserException e) {

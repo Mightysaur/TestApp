@@ -13,4 +13,12 @@ public class Word {
         this.word = word;
         this.definition = definition;
     }
+
+    public String getDefinition() {
+        return definition;
+    }
+
+    public String getWord() {
+        return word;
+    }
 }

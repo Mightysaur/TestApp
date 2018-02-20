@@ -57,6 +57,9 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
     private MyService boundService;
     private boolean isBound;
     private static final int REQUEST_RECORD_PERMISSION = 100;
+    private Button yesButton;
+    private Button noButton;
+    private Button nextDefButton;
     private TextView returnedText;
     private ToggleButton toggleButton;
     private ProgressBar progressBar;
@@ -69,6 +72,8 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
     public static final String API_KEY = "b184931b-4583-43c8-9ea9-baac48d5e3f8";
     public static final String SERVER = "https://www.dictionaryapi.com/api/references/medical/v2/xml/";
     public String query = "";
+
+    private ArrayList<Word> spokenMedicalTerms = new ArrayList<>();
 
 
 
@@ -98,6 +103,9 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         returnedText = (TextView) myView.findViewById(R.id.textView1);
         progressBar = (ProgressBar)myView.findViewById(R.id.progressBar1);
         toggleButton = (ToggleButton) myView.findViewById(R.id.toggleButton1);
+        yesButton = myView.findViewById(R.id.yesButton);
+        noButton = myView.findViewById(R.id.noButton);
+        nextDefButton = myView.findViewById((R.id.nextDefinition));
         returnedText.setMovementMethod(new ScrollingMovementMethod());
 
         progressBar.setVisibility(View.INVISIBLE);
@@ -131,6 +139,33 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
                     speech.destroy();
 
                 }
+            }
+        });
+
+        yesButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if(!spokenMedicalTerms.isEmpty()){
+                    returnedText.setText(spokenMedicalTerms.get(0).getDefinition());
+                }
+
+            }
+        });
+
+        /*noButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+
+            }
+        });*/
+
+        nextDefButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                if(!spokenMedicalTerms.isEmpty()){
+                    spokenMedicalTerms.remove(0);
+                }
+                if(!spokenMedicalTerms.isEmpty()){
+                    returnedText.setText(spokenMedicalTerms.get(0).getWord());
+                }
+                else returnedText.setText("");
             }
         });
 
@@ -188,7 +223,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         ArrayList<String> matches = arg0
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-        returnedText.setText(speechString + matches.get(0));
+       // returnedText.setText(speechString + matches.get(0));
 
 
     }
@@ -204,9 +239,10 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         ArrayList<String> matches = results
                 .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
         speechString = speechString + ". " + matches.get(0);
-        Downloader downloader = new Downloader(matches);
+        Downloader downloader = new Downloader(matches.get(0));
         downloader.execute();
     }
+
 
     @Override
     public void onRmsChanged(float rmsdB) {
@@ -226,22 +262,29 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
 
 
     private void handleNewRecord(String entry) {
-        String message = returnedText.getText().toString() + "\n" + entry;
-        returnedText.setText(message);
+       // String message = returnedText.getText().toString() + "\n" + entry;
+       // returnedText.setText(message);
+
+        String arr[] = entry.split(" ", 2);
+
+        if(!(arr[1].equals("No definition found"))){
+            Log.i(TAG, "Medical Term" + arr[1]);
+            spokenMedicalTerms.add( new Word(arr[0], arr[1]));
+            if(spokenMedicalTerms.size() == 1) {
+                returnedText.setText(spokenMedicalTerms.get(0).getWord());
+            }
+
+        }
     }
+
+
 
     private class Downloader extends AsyncTask<Object, String, Integer> {
 
-        private ArrayList<String> receivedWords = new ArrayList<>();
+        private String[] receivedWords;
 
-        public Downloader(ArrayList<String> receivedWords) {
-            for (int i=0; i<receivedWords.size();i++){
-                String input = receivedWords.get(i);
-                String[] words = input.split(" ");
-                for(String word: words){
-                    this.receivedWords.add(word);
-                }
-            }
+        public Downloader(String receivedString) {
+            receivedWords = receivedString.split(" ");
         }
 
         @Override
@@ -274,7 +317,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         private int tryParsingXmlData(XmlPullParser receivedData) {
             if (receivedData != null) {
                 try {
-                    XMLParser parser = new XMLParser(receivedData);
+                    XMLParser parser = new XMLParser(receivedData, query);
                     String definition = parser.getFirstDefinition();
                     publishProgress(definition);
                 } catch (XmlPullParserException e) {
@@ -291,12 +334,15 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
             String entry = values[0];
             Log.i(TAG, "Word requested: " + entry);
 
+
             // Pass it to the application
             handleNewRecord(entry);
 
             super.onProgressUpdate(values);
         }
     }
+
+
 
 }
 
