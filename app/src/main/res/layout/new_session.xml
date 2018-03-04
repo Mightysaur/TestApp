@@ -1,43 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:weightSum="1">
 
     <Button
-        android:id="@+id/yesButton"
+        android:id="@+id/showDefinition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="18dp"
-        android:layout_toLeftOf="@+id/button3"
-        android:layout_toStartOf="@+id/button3"
-        android:text="Yes" />
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="19dp"
+        android:text="Show Definition" />
 
     <Button
-        android:id="@+id/noButton"
+        android:id="@+id/nextDefinition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/yesButton"
-        android:layout_alignBottom="@+id/yesButton"
-        android:layout_toEndOf="@+id/button3"
-        android:layout_toRightOf="@+id/button3"
-        android:text="No" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nextDefinition"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:text="End Session" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/showDefinition"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:text="Next Definition" />
 
 
     <ToggleButton
         android:id="@+id/toggleButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/nextDefinition"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="13dp"
         android:text="ToggleButton" />
 
     <ProgressBar
@@ -60,13 +57,49 @@
         android:scrollbars="vertical"
         android:layout_marginTop="47dp" />
 
-    <Button
-        android:id="@+id/nextDefinition"
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/sessionBacklog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/yesButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="Next Definition" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_more" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/endSession"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_alignTop="@+id/sessionBacklog"
+        android:clickable="true"
+        app:srcCompat="?attr/homeAsUpIndicator" />
+
+
+    <ScrollView
+        android:id="@+id/backLogScroller"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:fillViewport="true"
+
+        android:scrollbars="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/backLogText"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:maxLines="5"
+            android:layout_weight=".50"
+            android:text="Lorem Ipsum is simply dummy text\n of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum." />
+    </ScrollView>
+
 
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.daren.myapplication;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 
 import android.content.Context;
@@ -8,17 +9,24 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
+import android.support.design.widget.FloatingActionButton;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 
 import android.content.Intent;
@@ -52,22 +60,25 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
 
     View myView;
     private static final String TAG = "VoiceRecognition";
-    private TextView txtSpeechInput;
-    private Button btnSpeak;
-    private MyService boundService;
     private boolean isBound;
     private static final int REQUEST_RECORD_PERMISSION = 100;
-    private Button yesButton;
-    private Button noButton;
+    private Button showDefinition;
     private Button nextDefButton;
+    private FloatingActionButton endSession;
+    private FloatingActionButton sessionBackLog;
     private TextView returnedText;
     private ToggleButton toggleButton;
     private ProgressBar progressBar;
+    private ScrollView scroller;
+    private TextView backLogText;
+    private String sessionBackLogText;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
     private String LOG_TAG = "VoiceRecognitionActivity";
     String speechString = "";
     boolean speechStarted = false;
+    boolean scrollershown = false;
+    private Date currentTime;
 
     public static final String API_KEY = "b184931b-4583-43c8-9ea9-baac48d5e3f8";
     public static final String SERVER = "https://www.dictionaryapi.com/api/references/medical/v2/xml/";
@@ -98,14 +109,16 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //setContentView(R.layout.activity_voice_recognition);
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        returnedText = (TextView) myView.findViewById(R.id.textView1);
-        progressBar = (ProgressBar)myView.findViewById(R.id.progressBar1);
-        toggleButton = (ToggleButton) myView.findViewById(R.id.toggleButton1);
-        yesButton = myView.findViewById(R.id.yesButton);
-        noButton = myView.findViewById(R.id.noButton);
+        returnedText =  myView.findViewById(R.id.textView1);
+        progressBar = myView.findViewById(R.id.progressBar1);
+        toggleButton =  myView.findViewById(R.id.toggleButton1);
+        showDefinition = myView.findViewById(R.id.showDefinition);
+        sessionBackLog = myView.findViewById(R.id.sessionBacklog);
         nextDefButton = myView.findViewById((R.id.nextDefinition));
+        endSession = myView.findViewById(R.id.endSession);
+        scroller = myView.findViewById(R.id.backLogScroller);
+        backLogText = myView.findViewById(R.id.backLogText);
+        backLogText.setMovementMethod(new ScrollingMovementMethod());
         returnedText.setMovementMethod(new ScrollingMovementMethod());
 
         progressBar.setVisibility(View.INVISIBLE);
@@ -142,32 +155,105 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
             }
         });
 
-        yesButton.setOnClickListener(new View.OnClickListener(){
+        File path = getActivity().getFilesDir();
+        currentTime = Calendar.getInstance().getTime();
+
+        File file = new File(path, "sessions.txt");
+        if(!file.exists())
+        {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // write code for saving data to the file
+        }
+
+
+
+        endSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                File path = getActivity().getFilesDir();
+                //File fileExit = new File(path, "sessions.txt");
+                FileOutputStream stream = null;
+                try {
+                    stream = getActivity().openFileOutput("sessions.txt", Context.MODE_APPEND);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    stream.write((currentTime.toString() + "\n").getBytes());
+                //} finally {
+                    //stream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        stream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, new presession()).commit();
+            }
+        });
+
+        showDefinition.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if(!spokenMedicalTerms.isEmpty()){
                     returnedText.setText(spokenMedicalTerms.get(0).getDefinition());
+
                 }
 
             }
         });
-
-        /*noButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-
-            }
-        });*/
 
         nextDefButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if(!spokenMedicalTerms.isEmpty()){
+                    sessionBackLogText = sessionBackLogText + (spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()+"\n\n");
+                    backLogText.setText(sessionBackLogText);
                     spokenMedicalTerms.remove(0);
+
                 }
                 if(!spokenMedicalTerms.isEmpty()){
                     returnedText.setText(spokenMedicalTerms.get(0).getWord());
+
                 }
                 else returnedText.setText("");
             }
         });
+
+        scrollershown = false;
+        sessionBackLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (scrollershown == false){
+
+                    scroller.setVisibility(View.VISIBLE);
+                    scrollershown = true;
+                    showDefinition.setVisibility(View.GONE);
+                    nextDefButton.setVisibility(View.GONE);
+                    toggleButton.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+
+                }else{
+                    scroller.setVisibility(View.GONE);
+                    scrollershown = false;
+                    showDefinition.setVisibility(View.VISIBLE);
+                    nextDefButton.setVisibility(View.VISIBLE);
+                    toggleButton.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
+
+        sessionBackLogText = "";
 
     }
 
@@ -256,7 +342,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         public void onReceive(Context context, Intent intent) {
             //String action = intent.getAction();
             String updatedText = intent.getExtras().get("MY_KEY").toString();
-            txtSpeechInput.setText("hello");
+            //txtSpeechInput.setText("hello");
         }
     };
 
@@ -381,9 +467,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
             try {
                 startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
             } catch (ActivityNotFoundException a) {
-                //Toast.makeText(getApplicationContext(),
-                        //getString(R.string.speech_not_supported),
-                        //Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
             }
         }
 

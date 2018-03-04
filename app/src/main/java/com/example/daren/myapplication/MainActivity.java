@@ -5,9 +5,6 @@ import android.app.FragmentManager;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -95,7 +94,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_pair_glasses) {
 
         } else if (id == R.id.nav_new_session) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new VoiceRecognitionActivity()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new presession()).commit();
         } else if (id == R.id.nav_rename_session) {
 
         } else if (id == R.id.nav_delete_session) {
@@ -103,13 +102,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_reset_learnt_words) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DefTab()).commit();
         } else if (id == R.id.nav_reset_session_data) {
+            clearSessions();
 
         } else if (id == R.id.nav_logs){
             fragmentManager.beginTransaction().replace(R.id.content_frame, new Logs_tab()).commit();
         } else if (id == R.id.nav_favourites){
             fragmentManager.beginTransaction().replace(R.id.content_frame, new Favourites_tab()).commit();
         } else if (id == R.id.nav_help){
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new Help_tab()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new presession()).commit();
         } else if (id == R.id.nav_closeapp){
 
         }
@@ -129,5 +129,13 @@ public class MainActivity extends AppCompatActivity
                 requestPermissions(new String[]{requiredPermission}, 101);
             }
         }
+    }
+
+    private void clearSessions(){
+        FragmentManager fragmentManager = getFragmentManager();
+        File dir = getFilesDir();
+        File file = new File(dir, "sessions.txt");
+        file.delete();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, new Logs_tab()).commit();
     }
 }

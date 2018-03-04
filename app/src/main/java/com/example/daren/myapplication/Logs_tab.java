@@ -12,6 +12,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Daren on 06/12/2017.
@@ -28,6 +38,7 @@ public class Logs_tab extends Fragment{
     private FloatingActionButton backButton;
     private String[] sessions = {"1","2","3"};
     private String[][] sessions2 = {{"4"},{"5"},{"6"}};
+    private ArrayList<String> sessions3 = new ArrayList<String>();
 
     @Nullable
     @Override
@@ -38,7 +49,41 @@ public class Logs_tab extends Fragment{
         listViewWords = (ListView)myView.findViewById(R.id.wordsListView);
         listViewDefinition = (ListView)myView.findViewById(R.id.definitionListView);
         backButton = myView.findViewById(R.id.logBackButton);
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1,sessions );
+        sessions[0] = "4";
+
+        File path = getActivity().getFilesDir();
+
+        File file = new File(path, "sessions.txt");
+        FileInputStream inputStream = null;
+        StringBuilder text = new StringBuilder();
+        try {
+            inputStream = new FileInputStream(file);
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                String line = null;
+
+                while ((line = br.readLine()) != null) {
+                    //text = line;
+                    sessions3.add(line);
+                    //text.append(line);
+                    //text.append('\n');
+                }
+                //sessions[0] = text.toString();
+                //Toast.makeText(getActivity().getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
+                br.close();
+            }
+            catch (IOException e) {
+                //You'll need to add proper error handling here
+            }
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1,sessions3 );
 
         listViewLog.setAdapter(listViewAdapter);
         //listViewWords.setAdapter(listViewAdapter2);
@@ -58,6 +103,10 @@ public class Logs_tab extends Fragment{
                                                  }
                                              });
         viewLayer = 0;
+
+
+
+
         return myView;
     }
 
