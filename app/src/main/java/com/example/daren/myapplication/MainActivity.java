@@ -21,10 +21,17 @@ import java.io.File;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public BluetoothConnectionService getMainBluetoothConnection() {
+        return btActivity.getmBluetoothConnection();
+    }
+
+    private BluetoothConnectionService MainBluetoothConnection;
 
     private TextView txtSpeechInput;
     private ImageButton btnSpeak;
     private final int REQ_CODE_SPEECH_INPUT = 100;
+
+    private BluetoothActivity btActivity = new BluetoothActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_pair_glasses) {
-
+            fragmentManager.beginTransaction().replace(R.id.content_frame, btActivity).commit();
         } else if (id == R.id.nav_new_session) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new presession()).commit();
         } else if (id == R.id.nav_rename_session) {

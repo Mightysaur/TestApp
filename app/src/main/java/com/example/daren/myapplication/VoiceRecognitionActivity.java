@@ -79,6 +79,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
     boolean speechStarted = false;
     boolean scrollershown = false;
     private Date currentTime;
+    private BluetoothConnectionService bluetoothConnectionService;
 
     public static final String API_KEY = "b184931b-4583-43c8-9ea9-baac48d5e3f8";
     public static final String SERVER = "https://www.dictionaryapi.com/api/references/medical/v2/xml/";
@@ -120,6 +121,8 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         backLogText = myView.findViewById(R.id.backLogText);
         backLogText.setMovementMethod(new ScrollingMovementMethod());
         returnedText.setMovementMethod(new ScrollingMovementMethod());
+
+        bluetoothConnectionService = ((MainActivity)getActivity()).getMainBluetoothConnection();
 
         progressBar.setVisibility(View.INVISIBLE);
         speech = SpeechRecognizer.createSpeechRecognizer(getActivity());
@@ -215,6 +218,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         nextDefButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if(!spokenMedicalTerms.isEmpty()){
+
                     sessionBackLogText = sessionBackLogText + (spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()+"\n\n");
                     backLogText.setText(sessionBackLogText);
                     spokenMedicalTerms.remove(0);
@@ -222,7 +226,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
                 }
                 if(!spokenMedicalTerms.isEmpty()){
                     returnedText.setText(spokenMedicalTerms.get(0).getWord());
-
+                    bluetoothConnectionService.write((spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()).getBytes());
                 }
                 else returnedText.setText("");
             }
