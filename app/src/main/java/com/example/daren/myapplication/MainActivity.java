@@ -2,21 +2,32 @@ package com.example.daren.myapplication;
 
 import android.Manifest;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.WriteAbortedException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,6 +59,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         */
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -56,6 +68,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        createNewSessionLog();
     }
 
     @Override
@@ -141,8 +155,51 @@ public class MainActivity extends AppCompatActivity
     private void clearSessions(){
         FragmentManager fragmentManager = getFragmentManager();
         File dir = getFilesDir();
-        File file = new File(dir, "sessions.txt");
+        File file = new File(dir, "sessions.xml");
         file.delete();
+        createNewSessionLog();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new Logs_tab()).commit();
+    }
+
+    private void createNewSessionLog(){
+        File path = getFilesDir();
+
+        File file = new File(path, "sessions.xml");
+
+        if(!file.exists()){
+            XmlSerializer serializer = Xml.newSerializer();
+            StringWriter writer = new StringWriter();
+
+            try{
+                serializer.setOutput(writer);
+                serializer.startDocument("UTF-8", true);
+                serializer.startTag("","Sessions");
+
+                serializer.endTag("","Sessions");
+                serializer.endDocument();
+                String result = writer.toString();
+
+                FileOutputStream fos = openFileOutput("sessions.xml", Context.MODE_PRIVATE);
+                fos.write(result.getBytes());
+                fos.close();
+                Toast.makeText(this.getApplicationContext(), result,Toast.LENGTH_LONG).show();
+
+                File sdCard = Environment.getExternalStorageDirectory();
+                File dir = new File (sdCard.getAbsolutePath() + "/dir1/dir2");
+                dir.mkdirs();
+                File file2 = new File(dir, "sessions.xml");
+
+                FileOutputStream f = new FileOutputStream(file2);
+                f.write(result.getBytes());
+                f.close();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
     }
 }

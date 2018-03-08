@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 
 import android.support.design.widget.FloatingActionButton;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,11 @@ import android.widget.TextView;
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -43,14 +46,23 @@ import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
 import android.widget.Button;
 
+import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
+import org.xmlpull.v1.XmlSerializer;
+
+import javax.xml.transform.*;
+import javax.xml.transform.stream.*;
+import javax.xml.transform.dom.*;
+import org.w3c.dom.*;
+import javax.xml.parsers.*;
 
 /**
  * Created by Daren on 06/12/2017.
@@ -86,6 +98,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
     public String query = "";
 
     private ArrayList<Word> spokenMedicalTerms = new ArrayList<>();
+    private ArrayList<Word> spokenWordsContainer = new ArrayList<>();
 
 
 
@@ -177,7 +190,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         endSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                /*
                 File path = getActivity().getFilesDir();
                 //File fileExit = new File(path, "sessions.txt");
                 FileOutputStream stream = null;
@@ -200,6 +213,77 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
                         e.printStackTrace();
                     }
                 }
+                */
+
+                DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder documentBuilder = null;
+                FileInputStream fis;
+                try {
+                    documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                }
+                Document document = null;
+                try {
+                    fis = getActivity().openFileInput("sessions.xml");
+                    try {
+                        document = documentBuilder.parse(fis);
+                    } catch (SAXException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(getActivity().getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+                Element root = document.getDocumentElement();
+
+                //Element newSession = document.createElement("session");
+
+                Element sessionName = document.createElement("name");
+                sessionName.appendChild(document.createTextNode(currentTime.toString()));
+                //newSession.appendChild(sessionName);
+
+                for(Word addWord : spokenWordsContainer){
+
+                    Element word = document.createElement("word");
+                    word.appendChild(document.createTextNode(addWord.getWord() + " "+ addWord.getDefinition()));
+                    sessionName.appendChild(word);
+
+
+                }
+
+                root.appendChild(sessionName);
+
+                DOMSource source = new DOMSource(document);
+
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = null;
+                try {
+                    transformer = transformerFactory.newTransformer();
+                } catch (TransformerConfigurationException e) {
+                    e.printStackTrace();
+                }
+
+                StreamResult result = null;
+                try {
+                    result = new StreamResult(getActivity().openFileOutput("sessions.xml", Context.MODE_PRIVATE));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    transformer.transform(source, result);
+
+                } catch (TransformerException e) {
+                    Toast.makeText(getActivity().getApplicationContext(), "failed",Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+
+
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, new presession()).commit();
             }
@@ -221,12 +305,13 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
 
                     sessionBackLogText = sessionBackLogText + (spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()+"\n\n");
                     backLogText.setText(sessionBackLogText);
+                    spokenWordsContainer.add(spokenMedicalTerms.get(0));
                     spokenMedicalTerms.remove(0);
 
                 }
                 if(!spokenMedicalTerms.isEmpty()){
                     returnedText.setText(spokenMedicalTerms.get(0).getWord());
-                    bluetoothConnectionService.write((spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()).getBytes());
+                    //bluetoothConnectionService.write((spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()).getBytes());
                 }
                 else returnedText.setText("");
             }
