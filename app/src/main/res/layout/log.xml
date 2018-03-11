@@ -12,7 +12,7 @@
             android:id="@+id/logListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"/>
+            android:visibility="visible" />
 
         <ListView
             android:id="@+id/wordsListView"
@@ -20,13 +20,13 @@
             android:layout_height="wrap_content"
             android:visibility="gone"/>
 
-        <ListView
-            android:id="@+id/definitionListView"
+        <TextView
+            android:id="@+id/wordsListDef"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone">
+            android:text="TextView"
+            android:visibility="gone" />
 
-        </ListView>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -41,6 +41,19 @@
         android:layout_marginRight="22dp"
         android:clickable="true"
         app:srcCompat="?attr/homeAsUpIndicator" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/favouriteWord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/logBackButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="22dp"
+        android:layout_marginStart="22dp"
+        android:clickable="true"
+        android:visibility="visible"
+        app:srcCompat="@android:drawable/btn_star" />
 
 
 </RelativeLayout>

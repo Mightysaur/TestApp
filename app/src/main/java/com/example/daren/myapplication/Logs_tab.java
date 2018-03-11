@@ -1,17 +1,22 @@
 package com.example.daren.myapplication;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
@@ -37,25 +42,32 @@ public class Logs_tab extends Fragment{
     private Context mContext;
     private ListView listViewLog;
     private ListView listViewWords;
-    private ListView listViewDefinition;
+    private TextView listDefinition;
     private int viewLayer;
+    private int currentSessionPos;
     private FloatingActionButton backButton;
+    private FloatingActionButton favouriteWord;
     private ArrayList<String> sessions3 = new ArrayList<String>();
     private ArrayList<ArrayList<String>> sessionWords = new ArrayList<ArrayList<String>>();
     private ArrayList<ArrayList<String>> sessionDef = new ArrayList<ArrayList<String>>();
+    private String[] sessonsTest = {"1","2","3"};
+    protected FragmentActivity mActivity;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        mContext = this.getActivity();
+        ((AppCompatActivity)mActivity).getSupportActionBar().setTitle("Sessions");
+        mContext = this.mActivity;
         myView = inflater.inflate(R.layout.log,container,false);
         listViewLog = (ListView)myView.findViewById(R.id.logListView);
         listViewWords = (ListView)myView.findViewById(R.id.wordsListView);
-        listViewDefinition = (ListView)myView.findViewById(R.id.definitionListView);
+        listDefinition = myView.findViewById(R.id.wordsListDef);
         backButton = myView.findViewById(R.id.logBackButton);
+        favouriteWord = myView.findViewById(R.id.favouriteWord);
 
 
-        File path = getActivity().getFilesDir();
+        File path = mActivity.getFilesDir();
 
         File file = new File(path, "sessions.xml");
         FileInputStream inputStream = null;
@@ -69,7 +81,7 @@ public class Logs_tab extends Fragment{
         }
         Document document = null;
         try {
-            fis = getActivity().openFileInput("sessions.xml");
+            fis = mActivity.openFileInput("sessions.xml");
             try {
                 document = documentBuilder.parse(fis);
             } catch (SAXException e) {
@@ -79,7 +91,7 @@ public class Logs_tab extends Fragment{
             }
 
         } catch (FileNotFoundException e) {
-            Toast.makeText(getActivity().getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity.getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
 
@@ -115,7 +127,7 @@ public class Logs_tab extends Fragment{
         //Element sessionNames = (Element) sessionsNodeList.item(0);
 
 
-        //Toast.makeText(getActivity().getApplicationContext(), test,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mActivity.getApplicationContext(), test,Toast.LENGTH_SHORT).show();
 
         /*
         try {
@@ -128,7 +140,7 @@ public class Logs_tab extends Fragment{
                     sessions3.add(line);
 
                 }
-                //Toast.makeText(getActivity().getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mActivity.getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
                 br.close();
             }
             catch (IOException e) {
@@ -142,7 +154,7 @@ public class Logs_tab extends Fragment{
         }
         */
 
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1,sessions3 );
+        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(mActivity,android.R.layout.simple_expandable_list_item_1,sessions3 );
 
         listViewLog.setAdapter(listViewAdapter);
         //listViewWords.setAdapter(listViewAdapter2);
@@ -171,13 +183,31 @@ public class Logs_tab extends Fragment{
         viewLayer = 0;
 
 
+        favouriteWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
+                adb.setTitle("Favourite?");
+                adb.setMessage("Are you sure you want to favourite this word?");
+                adb.setNegativeButton("Cancel", null);
+                adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                adb.show();
+            }
+        });
+
+
 
 
         return myView;
     }
 
     public void navigateToWords(int position){
-        ArrayAdapter<String> listViewAdapter2 = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, sessionWords.get(position));
+        ArrayAdapter<String> listViewAdapter2 = new ArrayAdapter<String>(mActivity,android.R.layout.simple_expandable_list_item_1, sessionWords.get(position));
+        currentSessionPos = position;
         viewLayer = 1;
         listViewWords.setAdapter(listViewAdapter2);
         listViewWords.setVisibility(View.VISIBLE);
@@ -185,11 +215,14 @@ public class Logs_tab extends Fragment{
     }
 
     public void navigateToDef(int position){
-        ArrayAdapter<String> listViewAdapter3 = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_expandable_list_item_1, sessionDef.get(position));
+        //ArrayAdapter<String> listViewAdapter3 = new ArrayAdapter<String>(mActivity,android.R.layout.simple_expandable_list_item_1, sessionDef.get(position));
+        listDefinition.setText(sessionDef.get(currentSessionPos).get(position));
         viewLayer = 2;
-        listViewDefinition.setAdapter(listViewAdapter3);
-        listViewDefinition.setVisibility(View.VISIBLE);
+        //listViewDefinition.setAdapter(listViewAdapter3);
+        listDefinition.setVisibility(View.VISIBLE);
+        favouriteWord.setVisibility(View.VISIBLE);
         listViewWords.setVisibility(View.GONE);
+
     }
 
     public void navigateBack(){
@@ -199,7 +232,8 @@ public class Logs_tab extends Fragment{
             listViewLog.setVisibility(View.VISIBLE);
         }else if(viewLayer == 2){
             viewLayer = 1;
-            listViewDefinition.setVisibility(View.GONE);
+            listDefinition.setVisibility(View.GONE);
+            //favouriteWord.setVisibility(View.GONE);
             listViewWords.setVisibility(View.VISIBLE);
         }
         //listViewWords.setVisibility(View.VISIBLE);
@@ -207,6 +241,10 @@ public class Logs_tab extends Fragment{
     }
 
 
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (FragmentActivity) activity;
+    }
 
 }

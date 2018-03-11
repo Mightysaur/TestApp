@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,9 @@ public class DeleteLog extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
+        //mActivity.getActionBar().setTitle("Hello world App");
+        ((AppCompatActivity)mActivity).getSupportActionBar().setTitle("Delete Session");
         mContext = this.getActivity();
         myView = inflater.inflate(R.layout.delete_log,container,false);
         listViewLogDelete = (ListView)myView.findViewById(R.id.logListViewDelete);
@@ -216,35 +220,7 @@ public class DeleteLog extends Fragment{
         return myView;
     }
 
-    public void navigateToWords(int position){
-        ArrayAdapter<String> listViewAdapter2 = new ArrayAdapter<String>(mActivity,android.R.layout.simple_expandable_list_item_1, sessionWords.get(position));
-        viewLayer = 1;
-        listViewWords.setAdapter(listViewAdapter2);
-        listViewWords.setVisibility(View.VISIBLE);
-        listViewLogDelete.setVisibility(View.GONE);
-    }
 
-    public void navigateToDef(int position){
-        ArrayAdapter<String> listViewAdapter3 = new ArrayAdapter<String>(mActivity,android.R.layout.simple_expandable_list_item_1, sessionDef.get(position));
-        viewLayer = 2;
-        listViewDefinition.setAdapter(listViewAdapter3);
-        listViewDefinition.setVisibility(View.VISIBLE);
-        listViewWords.setVisibility(View.GONE);
-    }
-
-    public void navigateBack(){
-        if (viewLayer == 1){
-            viewLayer = 0;
-            listViewWords.setVisibility(View.GONE);
-            listViewLogDelete.setVisibility(View.VISIBLE);
-        }else if(viewLayer == 2){
-            viewLayer = 1;
-            listViewDefinition.setVisibility(View.GONE);
-            listViewWords.setVisibility(View.VISIBLE);
-        }
-        //listViewWords.setVisibility(View.VISIBLE);
-
-    }
 
     @Override
     public void onAttach(Activity activity) {
