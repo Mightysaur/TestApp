@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,6 @@ public class Logs_tab extends Fragment{
     private ArrayList<ArrayList<String>> sessionWords = new ArrayList<ArrayList<String>>();
     private ArrayList<ArrayList<String>> sessionDef = new ArrayList<ArrayList<String>>();
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class Logs_tab extends Fragment{
         listViewWords = (ListView)myView.findViewById(R.id.wordsListView);
         listViewDefinition = (ListView)myView.findViewById(R.id.definitionListView);
         backButton = myView.findViewById(R.id.logBackButton);
+
 
         File path = getActivity().getFilesDir();
 
@@ -204,6 +205,8 @@ public class Logs_tab extends Fragment{
         //listViewWords.setVisibility(View.VISIBLE);
         //listViewLog.setVisibility(View.GONE);
     }
+
+
 
 
 }
