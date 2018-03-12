@@ -190,31 +190,6 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         endSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                File path = getActivity().getFilesDir();
-                //File fileExit = new File(path, "sessions.txt");
-                FileOutputStream stream = null;
-                try {
-                    stream = getActivity().openFileOutput("sessions.txt", Context.MODE_APPEND);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    stream.write((currentTime.toString() + "\n").getBytes());
-                //} finally {
-                    //stream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        stream.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                */
-
                 DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder documentBuilder = null;
                 FileInputStream fis;

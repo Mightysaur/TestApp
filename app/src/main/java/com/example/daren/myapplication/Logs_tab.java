@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -31,6 +32,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  * Created by Daren on 06/12/2017.
@@ -45,6 +52,7 @@ public class Logs_tab extends Fragment{
     private TextView listDefinition;
     private int viewLayer;
     private int currentSessionPos;
+    private int currentWordPos;
     private FloatingActionButton backButton;
     private FloatingActionButton favouriteWord;
     private ArrayList<String> sessions3 = new ArrayList<String>();
@@ -124,41 +132,12 @@ public class Logs_tab extends Fragment{
             sessions3.add("No Sessions");
         }
 
-        //Element sessionNames = (Element) sessionsNodeList.item(0);
 
-
-        //Toast.makeText(mActivity.getApplicationContext(), test,Toast.LENGTH_SHORT).show();
-
-        /*
-        try {
-            inputStream = new FileInputStream(file);
-            try {
-                BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-                String line = null;
-
-                while ((line = br.readLine()) != null) {
-                    sessions3.add(line);
-
-                }
-                //Toast.makeText(mActivity.getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
-                br.close();
-            }
-            catch (IOException e) {
-                //You'll need to add proper error handling here
-            }
-            inputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
 
         ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(mActivity,android.R.layout.simple_expandable_list_item_1,sessions3 );
 
         listViewLog.setAdapter(listViewAdapter);
-        //listViewWords.setAdapter(listViewAdapter2);
-        //listViewDefinition.setAdapter(listViewAdapter);
+
 
         listViewLog.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -192,6 +171,65 @@ public class Logs_tab extends Fragment{
                 adb.setNegativeButton("Cancel", null);
                 adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+                        DocumentBuilder documentBuilder = null;
+                        FileInputStream fis;
+                        try {
+                            documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                        } catch (ParserConfigurationException e) {
+                            e.printStackTrace();
+                        }
+                        Document document = null;
+                        try {
+                            fis = getActivity().openFileInput("favourites.xml");
+                            try {
+                                document = documentBuilder.parse(fis);
+                            } catch (SAXException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        } catch (FileNotFoundException e) {
+                            Toast.makeText(getActivity().getApplicationContext(), getString(R.string.speech_not_supported),Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+
+                        Element root = document.getDocumentElement();
+
+
+                        Element favWord = document.createElement("word");
+                        favWord.appendChild(document.createTextNode(sessionWords.get(currentSessionPos).get(currentWordPos) + " "+ sessionDef.get(currentSessionPos).get(currentWordPos)));
+
+
+
+
+                        root.appendChild(favWord);
+
+                        DOMSource source = new DOMSource(document);
+
+                        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                        Transformer transformer = null;
+                        try {
+                            transformer = transformerFactory.newTransformer();
+                        } catch (TransformerConfigurationException e) {
+                            e.printStackTrace();
+                        }
+
+                        StreamResult result = null;
+                        try {
+                            result = new StreamResult(getActivity().openFileOutput("favourites.xml", Context.MODE_PRIVATE));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        try {
+                            transformer.transform(source, result);
+
+                        } catch (TransformerException e) {
+                            Toast.makeText(getActivity().getApplicationContext(), "failed",Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
 
                     }
                 });
@@ -215,10 +253,9 @@ public class Logs_tab extends Fragment{
     }
 
     public void navigateToDef(int position){
-        //ArrayAdapter<String> listViewAdapter3 = new ArrayAdapter<String>(mActivity,android.R.layout.simple_expandable_list_item_1, sessionDef.get(position));
+        currentWordPos = position;
         listDefinition.setText(sessionDef.get(currentSessionPos).get(position));
         viewLayer = 2;
-        //listViewDefinition.setAdapter(listViewAdapter3);
         listDefinition.setVisibility(View.VISIBLE);
         favouriteWord.setVisibility(View.VISIBLE);
         listViewWords.setVisibility(View.GONE);
@@ -233,11 +270,9 @@ public class Logs_tab extends Fragment{
         }else if(viewLayer == 2){
             viewLayer = 1;
             listDefinition.setVisibility(View.GONE);
-            //favouriteWord.setVisibility(View.GONE);
+            favouriteWord.setVisibility(View.GONE);
             listViewWords.setVisibility(View.VISIBLE);
         }
-        //listViewWords.setVisibility(View.VISIBLE);
-        //listViewLog.setVisibility(View.GONE);
     }
 
 

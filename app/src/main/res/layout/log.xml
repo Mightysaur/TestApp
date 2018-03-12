@@ -52,7 +52,7 @@
         android:layout_marginLeft="22dp"
         android:layout_marginStart="22dp"
         android:clickable="true"
-        android:visibility="visible"
+        android:visibility="gone"
         app:srcCompat="@android:drawable/btn_star" />
 
 

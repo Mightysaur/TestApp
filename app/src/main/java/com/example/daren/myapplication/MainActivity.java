@@ -50,15 +50,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,7 +61,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         createNewSessionLog();
+        createNewFavourites();
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -202,4 +196,47 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
+    private void createNewFavourites() {
+        File path = getFilesDir();
+
+        File file = new File(path, "favourites.xml");
+
+        if(!file.exists()){
+            XmlSerializer serializer = Xml.newSerializer();
+            StringWriter writer = new StringWriter();
+
+            try{
+                serializer.setOutput(writer);
+                serializer.startDocument("UTF-8", true);
+                serializer.startTag("","Favourites");
+
+                serializer.endTag("","Favourites");
+                serializer.endDocument();
+                String result = writer.toString();
+
+                FileOutputStream fos = openFileOutput("favourites.xml", Context.MODE_PRIVATE);
+                fos.write(result.getBytes());
+                fos.close();
+                //Toast.makeText(this.getApplicationContext(), result,Toast.LENGTH_LONG).show();
+
+                File sdCard = Environment.getExternalStorageDirectory();
+                File dir = new File (sdCard.getAbsolutePath() + "/dir1/dir2");
+                dir.mkdirs();
+                File file2 = new File(dir, "favourites.xml");
+
+                FileOutputStream f = new FileOutputStream(file2);
+                f.write(result.getBytes());
+                f.close();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
 }
