@@ -268,7 +268,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
             public void onClick(View v){
                 if(!spokenMedicalTerms.isEmpty()){
                     returnedText.setText(spokenMedicalTerms.get(0).getDefinition());
-
+                    bluetoothConnectionService.write(("def:"+spokenMedicalTerms.get(0).getDefinition()).getBytes());
                 }
 
             }
@@ -286,6 +286,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
                 }
                 if(!spokenMedicalTerms.isEmpty()){
                     returnedText.setText(spokenMedicalTerms.get(0).getWord());
+                    bluetoothConnectionService.write(("word:"+spokenMedicalTerms.get(0).getWord()).getBytes());
                     //bluetoothConnectionService.write((spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()).getBytes());
                 }
                 else returnedText.setText("");
