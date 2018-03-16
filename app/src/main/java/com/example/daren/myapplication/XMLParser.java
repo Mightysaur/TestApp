@@ -11,13 +11,25 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 
 public class XMLParser {
 
     private XmlPullParser receivedData;
     private String word;
+
+    private ArrayList<String> blacklist = new ArrayList<>();
+
+    private void loadBlacklistWords() {
+        String blacklistStr = "Me You Him Her House Door Dog Cat Animal If in my name the then else home car seat I hi is no yes diagnosed" +
+                              " medicine medical doctor test treatment pharmacy hospital emergency service services" +
+                              " feeling very ill will prescribe with to come back";
+        String[] blacklistArr = blacklistStr.split(" ");
+        for(String str:blacklistArr){
+            blacklist.add(str.toLowerCase());
+        }
+    }
 
     public XMLParser(XmlPullParser receivedData, String query) {
         this.receivedData = receivedData;
@@ -27,8 +39,15 @@ public class XMLParser {
     private String firstDefinitionFrom(XmlPullParser xmlData) throws XmlPullParserException, IOException {
         int recordsFound = 0;
 
+        loadBlacklistWords();
+
         String definition = "";
-        // Text
+
+
+        //First Checks if the word is in the blacklist
+        if(blacklist.contains(word.toLowerCase())){
+            return word + " No definition found";
+        }
 
         int eventType = -1;
         while (eventType != XmlResourceParser.END_DOCUMENT) {

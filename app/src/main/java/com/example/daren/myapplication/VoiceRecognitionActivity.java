@@ -422,6 +422,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
 
         String arr[] = entry.split(" ", 2);
 
+        //If the XML API returns no definition, don't add the word, else add it
         if(!(arr[1].equals("No definition found"))){
             Log.i(TAG, "Medical Term" + arr[1]);
             spokenMedicalTerms.add( new Word(arr[0], arr[1]));
