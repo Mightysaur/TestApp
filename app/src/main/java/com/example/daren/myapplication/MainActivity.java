@@ -1,8 +1,10 @@
 package com.example.daren.myapplication;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_pair_glasses) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, btActivity).commit();
+            getSupportActionBar().setTitle("Bluetooth Pairing");
         } else if (id == R.id.nav_new_session) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new presession()).commit();
         } else if (id == R.id.nav_rename_session) {
@@ -117,7 +120,16 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_reset_learnt_words) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DefTab()).commit();
         } else if (id == R.id.nav_reset_session_data) {
-            clearSessions();
+
+            AlertDialog.Builder adb=new AlertDialog.Builder(this);
+            adb.setTitle("Delete?");
+            adb.setMessage("Are you sure you want to delete all sessions");
+            adb.setNegativeButton("Cancel", null);
+            adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    clearSessions();
+                }});
+            adb.show();
 
         } else if (id == R.id.nav_logs){
             fragmentManager.beginTransaction().replace(R.id.content_frame, new Logs_tab()).commit();

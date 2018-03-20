@@ -97,7 +97,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
     public static final String SERVER = "https://www.dictionaryapi.com/api/references/medical/v2/xml/";
     public String query = "";
 
-    private ArrayList<Word> spokenMedicalTerms = new ArrayList<>();
+    private ArrayList<Word[]> spokenMedicalTerms = new ArrayList<>();
     private ArrayList<Word> spokenWordsContainer = new ArrayList<>();
 
 
@@ -267,9 +267,10 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         showDefinition.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if(!spokenMedicalTerms.isEmpty()){
-                    returnedText.setText(spokenMedicalTerms.get(0).getDefinition());
+                    spokenMedicalTerms.get(0)[1] = new Word("1","1");
+                    returnedText.setText(spokenMedicalTerms.get(0)[0].getDefinition());
                     if(bluetoothConnectionService != null) {
-                        bluetoothConnectionService.write(("def:" + spokenMedicalTerms.get(0).getDefinition()).getBytes());
+                        bluetoothConnectionService.write(("def:" + spokenMedicalTerms.get(0)[0].getDefinition()).getBytes());
                     }
                 }
 
@@ -280,16 +281,18 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
             public void onClick(View v){
                 if(!spokenMedicalTerms.isEmpty()){
 
-                    sessionBackLogText = sessionBackLogText + (spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()+"\n\n");
-                    backLogText.setText(sessionBackLogText);
-                    spokenWordsContainer.add(spokenMedicalTerms.get(0));
+                    if (spokenMedicalTerms.get(0)[1].getWord() == "1"){
+                        sessionBackLogText = sessionBackLogText + (spokenMedicalTerms.get(0)[0].getWord() + " - " + spokenMedicalTerms.get(0)[0].getDefinition()+"\n\n");
+                        backLogText.setText(sessionBackLogText);
+                        spokenWordsContainer.add(spokenMedicalTerms.get(0)[0]);
+                    }
                     spokenMedicalTerms.remove(0);
 
                 }
                 if(!spokenMedicalTerms.isEmpty()){
-                    returnedText.setText(spokenMedicalTerms.get(0).getWord());
+                    returnedText.setText(spokenMedicalTerms.get(0)[0].getWord());
                     if(bluetoothConnectionService != null) {
-                        bluetoothConnectionService.write(("word:" + spokenMedicalTerms.get(0).getWord()).getBytes());
+                        bluetoothConnectionService.write(("word:" + spokenMedicalTerms.get(0)[0].getWord()).getBytes());
                         //bluetoothConnectionService.write((spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()).getBytes());
                     }
                 }
@@ -425,9 +428,14 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
         //If the XML API returns no definition, don't add the word, else add it
         if(!(arr[1].equals("No definition found"))){
             Log.i(TAG, "Medical Term" + arr[1]);
-            spokenMedicalTerms.add( new Word(arr[0], arr[1]));
+            Word[] tempWord = {(new Word(arr[0], arr[1])),(new Word("0","0"))};
+            spokenMedicalTerms.add(tempWord);
             if(spokenMedicalTerms.size() == 1) {
-                returnedText.setText(spokenMedicalTerms.get(0).getWord());
+                returnedText.setText(spokenMedicalTerms.get(0)[0].getWord());
+                if(bluetoothConnectionService != null) {
+                    bluetoothConnectionService.write(("word:" + spokenMedicalTerms.get(0)[0].getWord()).getBytes());
+                    //bluetoothConnectionService.write((spokenMedicalTerms.get(0).getWord() + " - " + spokenMedicalTerms.get(0).getDefinition()).getBytes());
+                }
             }
 
         }

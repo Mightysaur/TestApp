@@ -65,7 +65,7 @@ public class Logs_tab extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        ((AppCompatActivity)mActivity).getSupportActionBar().setTitle("Sessions");
+        ((AppCompatActivity)mActivity).getSupportActionBar().setTitle("Logs");
         mContext = this.mActivity;
         myView = inflater.inflate(R.layout.log,container,false);
         listViewLog = (ListView)myView.findViewById(R.id.logListView);

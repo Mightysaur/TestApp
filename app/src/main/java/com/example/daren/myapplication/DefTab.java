@@ -1,11 +1,14 @@
 package com.example.daren.myapplication;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,12 +30,14 @@ public class DefTab extends Fragment implements View.OnClickListener{
     TextView textView;
     EditText editText;
     private static final String TAG = "DictionaryApp";
+    protected FragmentActivity mActivity;
+
 
     public String query = "";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState){
-        //int layoutTemp = R.layout.fragment_definition_lookup_tab;
+        ((AppCompatActivity)mActivity).getSupportActionBar().setTitle("Lookup Definition");
         myView = inflater.inflate(R.layout.fragment_def_tab, container, false);
         textView = (TextView) myView.findViewById(R.id.netResult);
         editText = (EditText) myView.findViewById(R.id.editText);
@@ -49,6 +54,12 @@ public class DefTab extends Fragment implements View.OnClickListener{
         Downloader downloader = new Downloader(query, textView);
         downloader.execute();
 
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (FragmentActivity) activity;
     }
 
 }
