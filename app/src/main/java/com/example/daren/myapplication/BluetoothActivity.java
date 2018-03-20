@@ -368,8 +368,7 @@ class BluetoothActivity extends Fragment implements AdapterView.OnItemClickListe
             mBluetoothConnection = new BluetoothConnectionService(BluetoothActivity.this);
         }
         else{
-            Log.i(TAG, "SDK <17, Pairing with device : deviceName");
-            Log.d(TAG, "Trying to pair with " + deviceName);
+            Log.i(TAG, "SDK <17, Still trying to pair with device : deviceName");
             mBTDevices.get(i).createBond();
 
             mBTDevice = mBTDevices.get(i);
