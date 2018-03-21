@@ -19,6 +19,11 @@ public class XMLParser {
     private XmlPullParser receivedData;
     private String word;
 
+    public ArrayList<String> getBlacklist() {
+        loadBlacklistWords();
+        return blacklist;
+    }
+
     private ArrayList<String> blacklist = new ArrayList<>();
 
     private void loadBlacklistWords() {
@@ -31,6 +36,9 @@ public class XMLParser {
         }
     }
 
+    public XMLParser(){
+
+    }
     public XMLParser(XmlPullParser receivedData, String query) {
         this.receivedData = receivedData;
         this.word = query;
