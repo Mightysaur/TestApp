@@ -23,9 +23,9 @@
                 android:icon="@android:drawable/ic_menu_add"
                 android:title="Start new session" />
             <item
-                android:id="@+id/nav_rename_session"
+                android:id="@+id/nav_export_sessions"
                 android:icon="@android:drawable/ic_menu_edit"
-                android:title="Rename Session" />
+                android:title="Export Sessions" />
             <item
                 android:id="@+id/nav_delete_session"
                 android:icon="@android:drawable/ic_menu_delete"

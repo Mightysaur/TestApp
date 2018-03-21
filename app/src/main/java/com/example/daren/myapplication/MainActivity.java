@@ -6,16 +6,20 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Xml;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,13 +27,32 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.StringWriter;
 import java.io.WriteAbortedException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,9 +67,19 @@ public class MainActivity extends AppCompatActivity
     private ImageButton btnSpeak;
     private final int REQ_CODE_SPEECH_INPUT = 100;
 
+    String[] permissions = new String[]{
+            Manifest.permission.INTERNET,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.VIBRATE,
+            Manifest.permission.RECORD_AUDIO,
+    };
+
     private BluetoothActivity btActivity = new BluetoothActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        checkPermissions();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -113,8 +146,8 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setTitle("Bluetooth Pairing");
         } else if (id == R.id.nav_new_session) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new presession()).commit();
-        } else if (id == R.id.nav_rename_session) {
-
+        } else if (id == R.id.nav_export_sessions) {
+            exportSessions();
         } else if (id == R.id.nav_delete_session) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DeleteLog()).commit();
         } else if (id == R.id.nav_reset_learnt_words) {
@@ -247,6 +280,98 @@ public class MainActivity extends AppCompatActivity
             }
 
 
+        }
+    }
+
+    private void exportSessions(){
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/exported_sessions");
+        myDir.mkdirs();
+        String fname = "ExportedSessions.xml";
+        File outputfile = new File(myDir, fname);
+        File path = getFilesDir();
+        File inputfile = new File(path, "sessions.xml");
+        if (outputfile.exists())
+            outputfile.delete();
+        try {
+            outputfile.createNewFile();
+            InputStream in = null;
+            OutputStream out = null;
+            try {
+                in = new FileInputStream(inputfile);
+                out = new FileOutputStream(outputfile);
+
+                byte[] buffer = new byte[1024];
+                int read;
+                while ((read = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, read);
+                }
+                in.close();
+                in = null;
+
+                // write the output file
+                out.flush();
+                out.close();
+                out = null;
+
+                // delete the original file
+
+                Toast.makeText(this.getApplicationContext(), "Export Successful",Toast.LENGTH_LONG).show();
+
+            }
+
+            catch (FileNotFoundException fnfe1) {
+                Log.e("tag", fnfe1.getMessage());
+            }
+            catch (Exception e) {
+                Log.e("tag", e.getMessage());
+            }
+
+
+        }
+
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+        // Tell the media scanner about the new file so that it is
+        // immediately available to the user.
+        MediaScannerConnection.scanFile(this, new String[] { outputfile.toString() }, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
+                        Log.i("ExternalStorage", "Scanned " + path + ":");
+                        Log.i("ExternalStorage", "-> uri=" + uri);
+                    }
+                });
+
+    }
+
+    private boolean checkPermissions() {
+        int result;
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String p : permissions) {
+            result = ContextCompat.checkSelfPermission(this, p);
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(p);
+            }
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), 100);
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        if (requestCode == 100) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // do something
+            }
+            return;
         }
     }
 
