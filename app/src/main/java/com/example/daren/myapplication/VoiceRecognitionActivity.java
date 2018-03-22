@@ -312,6 +312,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
                     nextDefButton.setVisibility(View.GONE);
                     toggleButton.setVisibility(View.GONE);
                     progressBar.setVisibility(View.GONE);
+                    returnedText.setVisibility(View.GONE);
 
                 }else{
                     scroller.setVisibility(View.GONE);
@@ -320,6 +321,7 @@ public class VoiceRecognitionActivity extends Fragment implements RecognitionLis
                     nextDefButton.setVisibility(View.VISIBLE);
                     toggleButton.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.VISIBLE);
+                    returnedText.setVisibility(View.VISIBLE);
                 }
 
             }
