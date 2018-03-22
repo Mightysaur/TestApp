@@ -13,26 +13,23 @@
     >
 
     <Button
-        android:text="ON/OFF"
+        android:id="@+id/btnONOFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btnSend"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/btnONOFF"/>
+        android:layout_alignRight="@+id/btnSend"
+        android:text="ON/OFF" />
 
     <Button
-        android:text="Enable Discoverable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/btnDiscoverable_on_off"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnFindUnpairedDevices"
-        android:text="Discover" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Enable Discoverable" />
+
 
     <ListView
         android:layout_marginTop="15dp"
@@ -45,7 +42,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnFindUnpairedDevices"
+        android:layout_below="@+id/btnDiscoverable_on_off"
         android:id="@+id/btnStartConnection"
         android:text="Start Connection"/>
 
@@ -58,12 +55,13 @@
         android:id="@+id/editText"/>
 
     <Button
+        android:id="@+id/btnSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SEND"
-        android:id="@+id/btnSend"
-        android:layout_toRightOf="@+id/editText"
-        android:layout_below="@+id/lvNewDevices"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lvNewDevices"
+        android:text="SEND" />
 
 
 </RelativeLayout>
