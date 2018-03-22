@@ -168,7 +168,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_help){
             fragmentManager.beginTransaction().replace(R.id.content_frame, new presession()).commit();
         } else if (id == R.id.nav_closeapp){
-
+            finish();
+            System.exit(0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
