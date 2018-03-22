@@ -11,6 +11,32 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/Welcome_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to the Smarter Medics Application"
+            android:layout_margin="100px"
+            android:textColor="@color/colorAccent"
+            android:textSize="40sp"
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/powered_by"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Powered by"
+            android:layout_marginTop="280sp"
+            android:layout_marginLeft="150sp"
+            android:textAlignment="center"/>
+
+        <ImageView
+            android:layout_width="200px"
+            android:layout_height="200px"
+            android:layout_marginLeft="150sp"
+            android:layout_marginTop="300sp"
+            android:src="@drawable/mw_logo" />
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
